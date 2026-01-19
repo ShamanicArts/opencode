@@ -330,15 +330,13 @@ export namespace Config {
   }
 
   /**
-   * Extracts a canonical plugin name from a plugin specifier.
-   * - For file:// URLs: extracts filename without extension (or parent dir for index.ts)
-   * - For npm packages: extracts package name without version
+   * Compute a canonical plugin name from a plugin specifier.
    *
-   * @example
-   * getPluginName("file:///path/to/plugin/foo.js") // "foo"
-   * getPluginName("file:///path/to/my-plugin/index.ts") // "my-plugin"
-   * getPluginName("oh-my-opencode@2.4.3") // "oh-my-opencode"
-   * getPluginName("@scope/pkg@1.0.0") // "@scope/pkg"
+   * For file:// URLs, returns the filename without extension, or the parent directory name when the file is an index entrypoint.
+   * For npm-style specifiers, returns the package name with any trailing version removed.
+   *
+   * @param plugin - A plugin specifier (file:// URL or npm-style package string)
+   * @returns The canonical plugin name
    */
   export function getPluginName(plugin: string): string {
     if (plugin.startsWith("file://")) {
